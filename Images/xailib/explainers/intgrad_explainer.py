@@ -159,11 +159,11 @@ class IntgradImageExplainer(ImageExplainer):
         integrated_grad = delta_X * avg_grads
         return integrated_grad
 
-    def random_baseline(self, image, target_label_idx, steps, num_random_trials, cuda):
+    def random_baseline(self, image, target_label_idx, steps, num_random_trials, cuda, max_val = 255.0):
         all_intgrads = []
         for i in range(num_random_trials):
             integrated_grad = self.integrated_gradients(image, target_label_idx,
-                                                        baseline=255.0*np.random.random_sample(image.shape), steps=steps, cuda=cuda)
+                                                        baseline=max_val*np.random.random_sample(image.shape), steps=steps, cuda=cuda)
             all_intgrads.append(integrated_grad)
         avg_intgrads = np.average(np.array(all_intgrads), axis=0)
         return avg_intgrads
@@ -194,6 +194,12 @@ class IntgradImageExplainer(ImageExplainer):
         elif baseline == 'random':
             attributions = self.random_baseline(image, index_to_explain, 
                                                 steps=steps, num_random_trials=10, cuda=cuda)
+        elif baseline == 'silence':
+            attributions = self.integrated_gradients(image, index_to_explain, 
+                                                     baseline=-80.0*np.ones(image.shape), steps=steps, cuda=cuda)
+        elif baseline == 'noise':
+            attributions = self.random_baseline(image, index_to_explain, 
+                                                steps=steps, num_random_trials=10, cuda=cuda, max_val=-80.0)  
         else:
             raise Exception('baseline method not supported')
         return attributions
