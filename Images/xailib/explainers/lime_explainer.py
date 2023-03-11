@@ -109,7 +109,7 @@ class LimeXAIImageExplainer(ImageExplainer):
         """
         self.lime_explainer = LimeImageExplainer(verbose = False)
 
-    def explain(self, image, classifier_fn=None, segmentation_fn=None, top_labels=5, num_samples=1000):
+    def explain(self, image, classifier_fn=None, segmentation_fn=None, top_labels=5, num_samples=1000, hide_color=0):
         """
         Return LIME explanation
         Arguments: 
@@ -128,7 +128,7 @@ class LimeXAIImageExplainer(ImageExplainer):
                                                    self.classifier_fn,
                                                    segmentation_fn=segmentation_fn,
                                                    top_labels=top_labels,
-                                                   hide_color=0,
+                                                   hide_color=hide_color,
                                                    num_samples=num_samples)
         ind =  exp.top_labels[0]
         dict_heatmap = dict(exp.local_exp[ind])
