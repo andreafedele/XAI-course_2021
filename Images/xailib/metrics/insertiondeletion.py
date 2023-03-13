@@ -45,7 +45,8 @@ class ImageInsDel():
             CH = 3
         else: 
             CH = 1
-        HW = size * size # image area
+        # HW = size * size # image area
+        HW = size[0] * size[1] # image area
         pred = torch.tensor(self.predict(img))
         top, c = torch.max(pred, 1)
         c = c[0]
