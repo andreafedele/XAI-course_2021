@@ -99,7 +99,6 @@ class ImageInsDel():
                 if rgb:
                     ax[0].imshow(image.transpose(1,2,0))
                 else:
-                    # ax[0].imshow(image, cmap='gray')
                     ax[0].imshow(image, origin='lower')
                 coords = salient_order[:, self.step * i:self.step * (i + 1)]
                 start.cpu().numpy().reshape(1, CH, HW)[0, :, coords] = finish.cpu().numpy().reshape(1, CH, HW)[0, :, coords]
