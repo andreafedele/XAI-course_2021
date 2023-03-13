@@ -67,7 +67,8 @@ class ImageInsDel():
         salient_order = np.flip(np.argsort(explanation.reshape(-1, HW), axis=1), axis=-1)
 
         if verbose:
-            fig, ax = plt.subplots(1,2,figsize=(10,5),facecolor='white')
+            # fig, ax = plt.subplots(1,2,figsize=(10,5),facecolor='white')
+            fig, ax = plt.subplots(1,2,figsize=(25,8), facecolor='white')
             
             #ax[0].axis('off')
             ax[1].set_title(title)
@@ -98,7 +99,8 @@ class ImageInsDel():
                 if rgb:
                     ax[0].imshow(image.transpose(1,2,0))
                 else:
-                    ax[0].imshow(image, cmap='gray')
+                    # ax[0].imshow(image, cmap='gray')
+                    ax[0].imshow(image, origin='lower')
                 coords = salient_order[:, self.step * i:self.step * (i + 1)]
                 start.cpu().numpy().reshape(1, CH, HW)[0, :, coords] = finish.cpu().numpy().reshape(1, CH, HW)[0, :, coords]
                 return line, title, probs
